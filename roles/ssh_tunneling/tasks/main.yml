@@ -23,15 +23,16 @@
   file:
     path: /var/jail/
     state: directory
-    mode: 0755
+    mode: '0755'
     owner: root
-    group: "{{ root_group|default('root') }}"
+    group: "{{ root_group | default('root') }}"
 
 - block:
     - name: Ensure that the SSH users exist
       user:
         name: "{{ item }}"
         group: algo
+        groups: algo
         home: /var/jail/{{ item }}
         createhome: true
         generate_ssh_key: false
@@ -66,7 +67,7 @@
             passphrase: "{{ p12_export_password }}"
             cipher: auto
             force: false
-          no_log: "{{ no_log|bool }}"
+          no_log: "{{ algo_no_log | bool }}"
           when: not item.stat.exists
           with_items: "{{ privatekey.results }}"
           register: openssl_privatekey
@@ -78,7 +79,7 @@
             privatekey_passphrase: "{{ p12_export_password }}"
             format: OpenSSH
             force: true
-          no_log: "{{ no_log|bool }}"
+          no_log: "{{ algo_no_log | bool }}"
           when: item.changed
           with_items: "{{ openssl_privatekey.results }}"
 
@@ -86,7 +87,7 @@
           template:
             src: ssh_config.j2
             dest: "{{ ssh_tunnels_config_path }}/{{ item }}.ssh_config"
-            mode: 0700
+            mode: '0700'
           with_items: "{{ users }}"
       delegate_to: localhost
       become: false

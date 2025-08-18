@@ -1,5 +1,6 @@
 ---
-- hosts: localhost
+- name: Manage VPN Users
+  hosts: localhost
   gather_facts: false
   tags: always
   vars_files:
@@ -32,7 +33,7 @@
         - name: Server address prompt
           pause:
             prompt: |
-              Select the server to update user list below: 
+              Select the server to update user list below:
                 {% for r in server_list %}
                   {{ loop.index }}. {{ r.server }} ({{ r.IP_subject_alt_name }})
               {% endfor %}
@@ -75,10 +76,10 @@
           add_host:
             name: "{{ algo_server }}"
             groups: vpn-host
-            ansible_ssh_user: "{{ server_user|default('root') }}"
+            ansible_ssh_user: "{{ server_user | default('root') }}"
             ansible_connection: "{% if algo_server == 'localhost' %}local{% else %}ssh{% endif %}"
             ansible_python_interpreter: /usr/bin/python3
-            CA_password: "{{ CA_password|default(omit) }}"
+            CA_password: "{{ CA_password | default(omit) }}"
       rescue:
         - include_tasks: playbooks/rescue.yml
 

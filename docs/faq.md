@@ -6,10 +6,11 @@
 * [Why aren't you using Racoon, LibreSwan, or OpenSwan?](#why-arent-you-using-racoon-libreswan-or-openswan)
 * [Why aren't you using a memory-safe or verified IKE daemon?](#why-arent-you-using-a-memory-safe-or-verified-ike-daemon)
 * [Why aren't you using OpenVPN?](#why-arent-you-using-openvpn)
-* [Why aren't you using Alpine Linux, OpenBSD, or HardenedBSD?](#why-arent-you-using-alpine-linux-openbsd-or-hardenedbsd)
+* [Why aren't you using Alpine Linux or OpenBSD?](#why-arent-you-using-alpine-linux-or-openbsd)
 * [I deployed an Algo server. Can you update it with new features?](#i-deployed-an-algo-server-can-you-update-it-with-new-features)
 * [Where did the name "Algo" come from?](#where-did-the-name-algo-come-from)
 * [Can DNS filtering be disabled?](#can-dns-filtering-be-disabled)
+* [Does Algo support zero logging?](#does-algo-support-zero-logging)
 * [Wasn't IPSEC backdoored by the US government?](#wasnt-ipsec-backdoored-by-the-us-government)
 * [What inbound ports are used?](#what-inbound-ports-are-used)
 * [How do I monitor user activity?](#how-do-i-monitor-user-activity)
@@ -39,9 +40,9 @@ I would, but I don't know of any [suitable ones](https://github.com/trailofbits/
 
 OpenVPN does not have out-of-the-box client support on any major desktop or mobile operating system. This introduces user experience issues and requires the user to [update](https://www.exploit-db.com/exploits/34037/) and [maintain](https://www.exploit-db.com/exploits/20485/) the software themselves. OpenVPN depends on the security of [TLS](https://tools.ietf.org/html/rfc7457), both the [protocol](https://arstechnica.com/security/2016/08/new-attack-can-pluck-secrets-from-1-of-https-traffic-affects-top-sites/) and its [implementations](https://arstechnica.com/security/2014/04/confirmed-nasty-heartbleed-bug-exposes-openvpn-private-keys-too/), and we simply trust the server less due to [past](https://sweet32.info/) [security](https://github.com/ValdikSS/openvpn-fix-dns-leak-plugin/blob/master/README.md) [incidents](https://www.exploit-db.com/exploits/34879/).
 
-## Why aren't you using Alpine Linux, OpenBSD, or HardenedBSD?
+## Why aren't you using Alpine Linux or OpenBSD?
 
-Alpine Linux is not supported out-of-the-box by any major cloud provider. We are interested in supporting Free-, Open-, and HardenedBSD. Follow along or contribute to our BSD support in [this issue](https://github.com/trailofbits/algo/issues/35).
+Alpine Linux is not supported out-of-the-box by any major cloud provider. While we considered BSD variants in the past, Algo now focuses exclusively on Ubuntu LTS for consistency, security, and maintainability.
 
 ## I deployed an Algo server. Can you update it with new features?
 
@@ -58,6 +59,10 @@ Algo is short for "Al Gore", the **V**ice **P**resident of **N**etworks everywhe
 ## Can DNS filtering be disabled?
 
 You can temporarily disable DNS filtering for all IPsec clients at once with the following workaround: SSH to your Algo server (using the 'shell access' command printed upon a successful deployment), edit `/etc/ipsec.conf`, and change `rightdns=<random_ip>` to `rightdns=8.8.8.8`. Then run `sudo systemctl restart strongswan`. DNS filtering for WireGuard clients has to be disabled on each client device separately by modifying the settings in the app, or by directly modifying the `DNS` setting on the `clientname.conf` file. If all else fails, we recommend deploying a new Algo server without the adblocking feature enabled.
+
+## Does Algo support zero logging?
+
+Yes, Algo includes privacy enhancements that minimize logging by default. StrongSwan connection logging is disabled, DNSCrypt syslog is turned off, and logs are automatically rotated after 7 days. However, some system-level logging remains for security and troubleshooting purposes. For detailed privacy configuration and limitations, see the [Privacy and Logging](#privacy-and-logging) section in the README.
 
 ## Wasn't IPSEC backdoored by the US government?
 
