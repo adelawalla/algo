@@ -16,7 +16,7 @@ The most cost-effective option for new AWS customers is the [AWS Free Tier](http
 - 100 GB of outbound data transfer per month
 - 30 GB of cloud storage
 
-The Free Tier is available for 12 months from account creation. Some regions like Middle East (Bahrain) and EU (Stockholm) don't offer t2.micro instances, but t3.micro is available as an alternative.
+The Free Tier is available for 12 months from account creation. Some regions like Middle East (Bahrain), EU (Stockholm), and Israel (il-central-1) don't offer t2.micro instances, but t3.micro is available as an alternative.
 
 Note that your Algo instance will continue working if you exceed bandwidth limits - you'll just start accruing standard charges on your AWS account.
 
@@ -51,7 +51,7 @@ For additional EC2 configuration options, see the [deploy from ansible guide](ht
 1. Navigate to Services → IAM → Users
 2. Enable multi-factor authentication (MFA) on your root account using Google Authenticator or a hardware token
 3. Click "Add User" and create a username (e.g., `algovpn`)
-4. Select "Programmatic access" 
+4. Select "Programmatic access"
 5. Click "Next: Permissions"
 
 ![The new user screen in the AWS console.](/docs/images/aws-ec2-new-user.png)
@@ -90,7 +90,7 @@ $ ./algo
     7. Vultr
     8. Scaleway
     9. OpenStack (DreamCompute optimised)
-    10. CloudStack (Exoscale optimised)
+    10. CloudStack
     11. Linode
     12. Install to existing Ubuntu server (for more advanced users)
 
